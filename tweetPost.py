@@ -1,6 +1,6 @@
 import requests
 from requests_oauthlib import OAuth1
-
+import os
 # === Your Keys ===
 API_KEY = os.environ.get("API_KEY")
 API_SECRET = os.environ.get("API_SECRET")
