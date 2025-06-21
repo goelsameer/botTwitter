@@ -1,27 +1,36 @@
 import requests
 from requests_oauthlib import OAuth1
 import os
+import random
 # === Your Keys ===
-API_KEY = os.environ.get("API_KEY")
-API_SECRET = os.environ.get("API_SECRET")
-ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
-ACCESS_SECRET = os.environ.get("ACCESS_SECRET")
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-
+API_KEY = "JbouaHQLAIINkmFx8nZV4raDy"
+API_SECRET = "IXoojbJfK1u0XFElvjKVycNPOXv3nF7nRrXUKR76ujV7NhCpef"
+ACCESS_TOKEN = "1832433714879496192-pIKWo4QwBGYTNjonVx3FHu6YflbAL8"
+ACCESS_SECRET = "tLPYPaMV0jhWeqnEREuvj63vUuP6uJL9lZv7esnUhmsee"
+GEMINI_API_KEY = "AIzaSyB77q0v0s2qnUTf_78A2ql2oPmCtbguEA0"
 auth = OAuth1(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
 
 # === Step 1: Ask Gemini to generate 2-part content ===
 gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
 headers = {"Content-Type": "application/json"}
-
+topics = [
+    "Genomics AI", "Retrieval-Augmented Generation (RAG)", "video generation (Sora, Runway, Pika)",
+    "large language models (GPT-4, Claude, LLaMA)", "transformers", "embeddings", "attention mechanisms",
+    "optimization (SGD, Adam)", "tokenization", "BERT", "NER",
+    "multimodal AI (CLIP, GPT-4o)", "text-to-image", "text-to-video", "text-to-audio",
+    "reinforcement learning (Q-learning, PPO)", "AutoGPT agents", "protein folding (AlphaFold)",
+    "AI in genomics", "AI in healthcare", "AI in law", "AI in finance", "AI in blockchain", 
+    "AI in customer support", "AI in education", "AI in logistics", "AI in gaming",
+    "LLM hallucinations", "prompt engineering", "debugging with ChatGPT", "LLM jailbreaking"
+]
+selected_topic = random.choice(topics)
 prompt = (
-    "I’m a tech creator simplifying cutting-edge AI — from Genomics AI and Retrieval-Augmented Generation (RAG) to video generation (Sora, Runway, Pika) and LLMs (GPT-4, Claude, LLaMA).I break down neural networks (MLP, CNN, RNN), transformers, embeddings, attention, and optimization (SGD, Adam). I explore NLP (tokenization, BERT, NER), multimodal AI (CLIP, GPT-4o), and GenAI (text-to-image, video, audio).I cover reinforcement learning (Q-learning, PPO), AutoGPT agents, protein folding (AlphaFold), and AI in genomics, healthcare, and law — with a side of memes and punchlines. If it’s powerful, complex, or hilarious in AI, I’m posting it. "
-    "I want to add humor to make it engaging. Please give me two tweets: "
-    "1. A funny AI one-liner (max 250 characters). "
-    "2. A follow-up explanation tweet (also max 250 characters).Note Dont write follow up just provide text "
-    "Add relevant emojis and hashtags. Only give the two tweet texts, no labels, no formatting."
+    f"You're an AI humorist and tech creator. Today's topic is: {selected_topic}.\n"
+    "Write:\n"
+    "1. A funny one-liner tweet about this topic (max 250 characters).\n"
+    "2. A follow-up explanation tweet (max 250 characters).\n"
+    "Respond with only the two tweets as plain text, separated by a line break. No labels, no intro, no extra formatting."
 )
-
 data = {
     "contents": [
         {
